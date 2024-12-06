@@ -1,4 +1,4 @@
-import { Schema, Types, model, type Document } from 'mongoose';
+import mongoose, { Schema, Types, type Document } from 'mongoose';
 
 interface IReaction extends Document {
     reactionId: Schema.Types.ObjectId,
@@ -40,7 +40,7 @@ const reactionSchema = new Schema<IReaction>(
     }
 );
 
-const thoughtSchema = new Schema<IThought>({
+const thoughtSchema = new mongoose.Schema<IThought>({
     thoughtText: {
         type: String,
         required: true,
@@ -66,6 +66,6 @@ const thoughtSchema = new Schema<IThought>({
     }
 );
 
-const Thought = model('thought', thoughtSchema);
+// const Thought = model('thought', thoughtSchema);
 
-export default Thought;
+export default mongoose.model('Thought', thoughtSchema);

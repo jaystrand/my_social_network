@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
-import { Thought, User } from '../models';
+import Thought from '../models/Thoughts.js';
+//import User from '../models/Users.ts';
 
 /**
  * GET All Courses /courses
@@ -26,7 +27,7 @@ export const getThoughtById = async (req: Request, res: Response) => {
     try {
       const user = await Thought.findById(thoughtId);
       if(user) {
-        res.json(User);
+        res.json(user);
       } else {
         res.status(404).json({
           message: 'Volunteer not found'
@@ -40,15 +41,15 @@ export const getThoughtById = async (req: Request, res: Response) => {
   };
 
   /**
- * POST THought /thoughts
+ * POST Thought /thoughts
  * @param object username
  * @returns a single Thought object
 */
 export const createThought = async (req: Request, res: Response) => {
-    const { course } = req.body;
+    const { thought } = req.body;
     try {
       const newThought = await Thought.create({
-        course
+        thought
       });
       res.status(201).json(newThought);
     } catch (error: any) {
@@ -66,7 +67,7 @@ export const createThought = async (req: Request, res: Response) => {
 export const updateThought = async (req: Request, res: Response) => {
     try {
       const thought = await Thought.findOneAndUpdate(
-        { _id: req.params.courseId },
+        { _id: req.params.thoughtId },
         { $set: req.body },
         { runValidators: true, new: true }
       );
@@ -97,7 +98,8 @@ export const deleteThought = async (req: Request, res: Response) => {
           message: 'No thought with that ID'
         });
       } else {
-        await User.deleteMany({ _id: { $in: thought._id } });
+        res.json({ message: 'Thought deleted!' });
+
         res.json({ message: 'Thought and users deleted!' });
       }
       

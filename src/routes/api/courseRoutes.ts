@@ -11,11 +11,11 @@ import {
 // /api/courses
 router.route('/').get(getAllThought).post(createThought);
 
-// /api/courses/:courseId
+// /api/courses/:thoughtId
 router
-  .route('/:courseId')
+  .route('/:thoughtId')
   .get(getThoughtById)
   .put(updateThought)
   .delete(deleteThought);
 
-export { router as courseRouter };
+export { router as thoughtRouter };
