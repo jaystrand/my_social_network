@@ -1,26 +1,26 @@
 import { Request, Response } from 'express';
 import { ObjectId } from 'mongodb';
-import { Student, Course } from '../models/index.js';
+import { User, Thought } from '../models';
 
 // Aggregate function to get number of students overall
 
 export const headCount = async () => {
-    const numberOfStudents = await Student.aggregate()
+    const numberOfStudents = await User.aggregate()
         .count('studentCount');
     return numberOfStudents;
 }
 
 // Aggregate function for getting the overall grade using $avg
-export const grade = async (studentId: string) =>
-    Student.aggregate([
+export const grade = async (studentsId: string) =>
+    User.aggregate([
         // only include the given student by using $match
-        { $match: { _id: new ObjectId(studentId) } },
+        { $match: { _id: new ObjectId(studentsId) } },
         {
             $unwind: '$assignments',
         },
         {
             $group: {
-                _id: new ObjectId(studentId),
+                _id: new ObjectId(studentsId),
                 overallGrade: { $avg: '$assignments.score' },
             },
         },
@@ -30,12 +30,12 @@ export const grade = async (studentId: string) =>
  * GET All Students /students
  * @returns an array of Students
 */
-export const getAllStudents = async (_req: Request, res: Response) => {
+export const getAllUser = async (_req: Request, res: Response) => {
     try {
-        const students = await Student.find();
+        const users = await User.find();
 
         const studentObj = {
-            students,
+            users,
             headCount: await headCount(),
         }
 
@@ -55,7 +55,7 @@ export const getAllStudents = async (_req: Request, res: Response) => {
 export const getStudentById = async (req: Request, res: Response) => {
     const { studentId } = req.params;
     try {
-        const student = await Student.findById(studentId);
+        const student = await User.findById(studentId);
         if (student) {
             res.json({
                 student,
@@ -81,7 +81,7 @@ export const getStudentById = async (req: Request, res: Response) => {
 
 export const createStudent = async (req: Request, res: Response) => {
     try {
-        const student = await Student.create(req.body);
+        const student = await User.create(req.body);
         res.json(student);
     } catch (err) {
         res.status(500).json(err);
@@ -95,25 +95,25 @@ export const createStudent = async (req: Request, res: Response) => {
 
 export const deleteStudent = async (req: Request, res: Response) => {
     try {
-        const student = await Student.findOneAndDelete({ _id: req.params.studentId });
+        const student = await User.findOneAndDelete({ _id: req.params.studentId });
 
         if (!student) {
-            return res.status(404).json({ message: 'No such student exists' });
+            return res.status(404).json({ message: 'No such user exists' });
         }
 
-        const course = await Course.findOneAndUpdate(
-            { students: req.params.studentId },
-            { $pull: { students: req.params.studentId } },
+        const course = await Thought.findOneAndUpdate(
+            { students: req.params.userId },
+            { $pull: { students: req.params.userId } },
             { new: true }
         );
 
         if (!course) {
             return res.status(404).json({
-                message: 'Student deleted, but no courses found',
+                message: 'User deleted, but no courses found',
             });
         }
 
-        return res.json({ message: 'Student successfully deleted' });
+        return res.json({ message: 'User successfully deleted' });
     } catch (err) {
         console.log(err);
         return res.status(500).json(err);
@@ -131,19 +131,19 @@ export const addAssignment = async (req: Request, res: Response) => {
     console.log('You are adding an assignment');
     console.log(req.body);
     try {
-        const student = await Student.findOneAndUpdate(
+        const user = await User.findOneAndUpdate(
             { _id: req.params.studentId },
             { $addToSet: { assignments: req.body } },
             { runValidators: true, new: true }
         );
 
-        if (!student) {
+        if (!User) {
             return res
                 .status(404)
-                .json({ message: 'No student found with that ID :(' });
+                .json({ message: 'No user found with that ID :(' });
         }
 
-        return res.json(student);
+        return res.json(User);
     } catch (err) {
         return res.status(500).json(err);
     }
@@ -158,19 +158,19 @@ export const addAssignment = async (req: Request, res: Response) => {
 
 export const removeAssignment = async (req: Request, res: Response) => {
     try {
-        const student = await Student.findOneAndUpdate(
+        const user = await User.findOneAndUpdate(
             { _id: req.params.studentId },
             { $pull: { assignments: { assignmentId: req.params.assignmentId } } },
             { runValidators: true, new: true }
         );
 
-        if (!student) {
+        if (!User) {
             return res
                 .status(404)
-                .json({ message: 'No student found with that ID :(' });
+                .json({ message: 'No user found with that ID :(' });
         }
 
-        return res.json(student);
+        return res.json(user);
     } catch (err) {
         return res.status(500).json(err);
     }
