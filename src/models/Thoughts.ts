@@ -7,8 +7,8 @@ interface IReaction extends Document {
     username: string,
 }
 
-interface IThought extends Document {
-    thoughtText: string,
+interface IThoughts extends Document {
+    thoughtsText: string,
     createdAt: Date,
     username: string,
     reactions: IReaction[]
@@ -40,8 +40,8 @@ const reactionSchema = new Schema<IReaction>(
     }
 );
 
-const thoughtSchema = new mongoose.Schema<IThought>({
-    thoughtText: {
+const thoughtsSchema = new mongoose.Schema<IThoughts>({
+    thoughtsText: {
         type: String,
         required: true,
         minlength: 1,
@@ -66,6 +66,6 @@ const thoughtSchema = new mongoose.Schema<IThought>({
     }
 );
 
-// const Thought = model('thought', thoughtSchema);
+// const Thoughts = model('thoughts', thoughtsSchema);
 
-export default mongoose.model('Thought', thoughtSchema);
+export default mongoose.model('Thoughts', thoughtsSchema);
