@@ -4,7 +4,7 @@
 
 
 // src/models/index.js
-export { default as Thought } from './Thoughts.js';
-export { default as User } from './Users.js';
+export { default as Thoughts } from './Thoughts.js';
+export { default as Users } from './Users.js';
 
 

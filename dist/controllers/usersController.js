@@ -1,25 +1,25 @@
-import { ObjectId } from 'mongodb';
-import Thought from '../models/Thoughts.js';
-import User from '../models/Users.js';
+import ObjectId from 'mongodb';
+import Thoughts from '../models/Thoughts.js';
+import Users from '../models/Users.js';
 
 
 
 // Aggregate function to get number of users overall
 export const headCount = async () => {
-    const numberOfUsers = await User.aggregate()
-        .count('userCount');
+    const numberOfUsers = await Users.aggregate()
+        .count('usersCount');
     return numberOfUsers;
 };
 // Aggregate function for getting the overall grade using $avg
-export const grade = async (userId) => User.aggregate([
+export const grade = async (usersId) => Users.aggregate([
     // only include the given student by using $match
-    { $match: { _id: new ObjectId(userId) } },
+    { $match: { _id: new ObjectId(usersId) } },
     {
         $unwind: '$assignments',
     },
     {
         $group: {
-            _id: new ObjectId(userId),
+            _id: new ObjectId(usersId),
             overallGrade: { $avg: '$assignments.score' },
         },
     },
@@ -28,14 +28,14 @@ export const grade = async (userId) => User.aggregate([
  * GET All Users /users
  * @returns an array of Users
 */
-export const getAllUser = async (_req, res) => {
+export const getAllUsers = async (_req, res) => {
     try {
-        const users = await User.find();
-        const userObj = {
+        const users = await Users.find();
+        const usersObj = {
             users,
             headCount: await headCount(),
         };
-        res.json(userObj);
+        res.json(usersObj);
     }
     catch (error) {
         res.status(500).json({
@@ -48,19 +48,19 @@ export const getAllUser = async (_req, res) => {
  * @param string id
  * @returns a single User object
 */
-export const getUserById = async (req, res) => {
-    const { userId } = req.params;
+export const getUsersById = async (req, res) => {
+    const { usersId } = req.params;
     try {
-        const student = await User.findById(userId);
-        if (student) {
+        const users = await Users.findById(usersId);
+        if (users) {
             res.json({
-                User,
-                grade: await grade(userId)
+                Users,
+                grade: await grade(usersId)
             });
         }
         else {
             res.status(404).json({
-                message: 'User not found'
+                message: 'Users not found'
             });
         }
     }
@@ -75,10 +75,10 @@ export const getUserById = async (req, res) => {
  * @param object user
  * @returns a single User object
 */
-export const createUser = async (req, res) => {
+export const createUsers = async (req, res) => {
     try {
-        const user = await User.create(req.body);
-        res.json(user);
+        const users = await Users.create(req.body);
+        res.json(users);
     }
     catch (err) {
         res.status(500).json(err);
@@ -89,19 +89,19 @@ export const createUser = async (req, res) => {
  * @param string id
  * @returns string
 */
-export const deleteUser = async (req, res) => {
+export const deleteUsers = async (req, res) => {
     try {
-        const user = await User.findOneAndDelete({ _id: req.params.userId });
-        if (!user) {
-            return res.status(404).json({ message: 'No such user exists' });
+        const users = await Users.findOneAndDelete({ _id: req.params.usersId });
+        if (!users) {
+            return res.status(404).json({ message: 'No such users exists' });
         }
-        const course = await Thought.findOneAndUpdate({ user: req.params.userId }, { $pull: { user: req.params.userId } }, { new: true });
-        if (!course) {
+        const thoughts = await Thoughts.findOneAndUpdate({ user: req.params.usersId }, { $pull: { users: req.params.usersId } }, { new: true });
+        if (!thoughts) {
             return res.status(404).json({
-                message: 'User deleted, but no thoughts found',
+                message: 'Users deleted, but no thoughts found',
             });
         }
-        return res.json({ message: 'User successfully deleted' });
+        return res.json({ message: 'Users successfully deleted' });
     }
     catch (err) {
         console.log(err);
@@ -119,10 +119,10 @@ export const addAssignment = async (req, res) => {
     console.log(req.body);
     try {
         const user = await User.findOneAndUpdate({ _id: req.params.userId }, { $addToSet: { assignments: req.body } }, { runValidators: true, new: true });
-        if (!user) {
+        if (!users) {
             return res
                 .status(404)
-                .json({ message: 'No user found with that ID :(' });
+                .json({ message: 'No users found with that ID :(' });
         }
         return res.json(User);
     }
@@ -138,11 +138,11 @@ export const addAssignment = async (req, res) => {
 */
 export const removeAssignment = async (req, res) => {
     try {
-        const user = await User.findOneAndUpdate({ _id: req.params.userId }, { $pull: { assignments: { assignmentId: req.params.assignmentId } } }, { runValidators: true, new: true });
-        if (!User) {
+        const users = await Users.findOneAndUpdate({ _id: req.params.usersId }, { $pull: { assignments: { assignmentId: req.params.assignmentId } } }, { runValidators: true, new: true });
+        if (!Users) {
             return res
                 .status(404)
-                .json({ message: 'No user found with that ID :(' });
+                .json({ message: 'No users found with that ID :(' });
         }
         return res.json(user);
     }
