@@ -21,8 +21,8 @@ const reactionSchema = new Schema({
     timestamps: true,
     _id: false
 });
-const thoughtSchema = new mongoose.Schema({
-    thoughtText: {
+const thoughtsSchema = new mongoose.Schema({
+    thoughtsText: {
         type: String,
         required: true,
         minlength: 1,
@@ -44,5 +44,5 @@ const thoughtSchema = new mongoose.Schema({
     },
     timestamps: true
 });
-// const Thought = model('thought', thoughtSchema);
-export default mongoose.model('Thought', thoughtSchema);
+// const Thoughts = model('thought', thoughtSchema);
+export default mongoose.model('Thoughts', thoughtsSchema);

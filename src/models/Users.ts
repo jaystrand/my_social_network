@@ -1,13 +1,13 @@
 import { Schema, model, type Document } from 'mongoose';
 
-interface IUser extends Document {
+interface IUsers extends Document {
     username: string;
     email: string;
     thoughts: Schema.Types.ObjectId[];
     friends: Schema.Types.ObjectId[];
 }
 
-const userSchema = new Schema<IUser>(
+const usersSchema = new Schema<IUsers>(
     {
         username: {
             type: String,
@@ -24,13 +24,13 @@ const userSchema = new Schema<IUser>(
         thoughts: [
             {
                 type: Schema.Types.ObjectId,
-                ref: 'Thought'
+                ref: 'Thoughts'
             }
         ],
         friends: [
             {
                 type: Schema.Types.ObjectId,
-                ref: 'User'
+                ref: 'Users'
             }
         ]
     },
@@ -42,10 +42,10 @@ const userSchema = new Schema<IUser>(
     }
 );
 
-userSchema.virtual('friendCount').get(function() {
+usersSchema.virtual('friendCount').get(function() {
     return this.friends.length;
 });
 
-const User = model<IUser>('User', userSchema);
+const Users = model<IUsers>('User', usersSchema);
 
-export default User;
+export default Users;

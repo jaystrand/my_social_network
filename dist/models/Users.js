@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-const userSchema = new Schema({
+const usersSchema = new Schema({
     username: {
         type: String,
         required: true,
@@ -15,13 +15,13 @@ const userSchema = new Schema({
     thoughts: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'Thought'
+            ref: 'Thoughts'
         }
     ],
     friends: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'User'
+            ref: 'Users'
         }
     ]
 }, {
@@ -30,8 +30,8 @@ const userSchema = new Schema({
     },
     timestamps: true
 });
-userSchema.virtual('friendCount').get(function () {
+usersSchema.virtual('friendCount').get(function () {
     return this.friends.length;
 });
-const User = model('User', userSchema);
-export default User;
+const Users = model('Users', usersSchema);
+export default Users;
