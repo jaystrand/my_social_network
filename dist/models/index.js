@@ -1,5 +1,5 @@
-// import Thought from '../models/Thought.js';
-// import User from '../models/User.js';
+// import Thoughts from '../models/Thoughts.js';
+// import Users from '../models/Users.js';
 
 
 

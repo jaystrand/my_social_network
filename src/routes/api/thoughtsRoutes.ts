@@ -8,10 +8,10 @@ import {
   deleteThoughts,
 } from '../../controllers/thoughtsController.js';
 
-// /api/courses
+// /api/thoughts
 router.route('/').get(getAllThoughts).post(createThoughts);
 
-// /api/courses/:thoughtsId
+// /api/thoughts/:thoughtId
 router
   .route('/:thoughtsId')
   .get(getThoughtsById)

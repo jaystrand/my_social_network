@@ -30,7 +30,7 @@ const usersSchema = new Schema<IUsers>(
         friends: [
             {
                 type: Schema.Types.ObjectId,
-                ref: 'User'
+                ref: 'Users'
             }
         ]
     },

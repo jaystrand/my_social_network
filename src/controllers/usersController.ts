@@ -14,7 +14,11 @@ export const headCount = async () => {
 // Aggregate function for getting the overall grade using $avg
 export const grade = async (usersId: string) =>
     Users.aggregate([
+<<<<<<< HEAD
+        // only include the given users by using $match
+=======
         // only include the given student by using $match
+>>>>>>> 3a052c4386f1f78b8f246e75c16f5b2c9e05a647
         { $match: { _id: new ObjectId(usersId) } },
         {
             $unwind: '$assignments',
@@ -99,16 +103,28 @@ export const deleteUsers = async (req: Request, res: Response) => {
         const users = await Users.findOneAndDelete({ _id: req.params.usersId });
 
         if (!users) {
+<<<<<<< HEAD
+            return res.status(404).json({ message: 'No such users exists' });
+        }
+
+        const thoughts = await Thoughts.findOneAndUpdate(
+            { user: req.params.usersId },
+=======
             return res.status(404).json({ message: 'No such users exist' });
         }
 
         const course = await Thoughts.findOneAndUpdate(
             { users: req.params.usersId },
+>>>>>>> 3a052c4386f1f78b8f246e75c16f5b2c9e05a647
             { $pull: { users: req.params.usersId } },
             { new: true }
         );
 
+<<<<<<< HEAD
+        if (!thoughts) {
+=======
         if (!course) {
+>>>>>>> 3a052c4386f1f78b8f246e75c16f5b2c9e05a647
             return res.status(404).json({
                 message: 'Users deleted, but no thoughts found',
             });
