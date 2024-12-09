@@ -17,9 +17,15 @@ export const getAllThoughts = async (_req, res) => {
     }
 };
 /**
+<<<<<<< HEAD
  * GET Thoughts based on id /thoughts/:id
  * @param string id
  * @returns a single Thoughts object
+=======
+ * GET Course based on id /course/:id
+ * @param string id
+ * @returns a single Course object
+>>>>>>> 3a052c4386f1f78b8f246e75c16f5b2c9e05a647
 */
 export const getThoughtsById = async (req, res) => {
     const { thoughtsId } = req.params;
@@ -41,15 +47,26 @@ export const getThoughtsById = async (req, res) => {
     }
 };
 /**
+<<<<<<< HEAD
 * POST Thoughts /thoughts
+=======
+* POST Thought /thoughts
+>>>>>>> 3a052c4386f1f78b8f246e75c16f5b2c9e05a647
 * @param object username
 * @returns a single Thought object
 */
 export const createThoughts = async (req, res) => {
+<<<<<<< HEAD
     const { thoughts } = req.body;
     try {
         const newThoughts = await Thoughts.create({
             thoughts
+=======
+    const { course } = req.body;
+    try {
+        const newThoughts = await Thoughts.create({
+            course
+>>>>>>> 3a052c4386f1f78b8f246e75c16f5b2c9e05a647
         });
         res.status(201).json(newThoughts);
     }
@@ -60,9 +77,15 @@ export const createThoughts = async (req, res) => {
     }
 };
 /**
+<<<<<<< HEAD
  * PUT THoughts based on id /thoughts/:id
  * @param object id, username
  * @returns a single Thoughts object
+=======
+ * PUT Thoughts based on id /thoughts/:id
+ * @param object id, username
+ * @returns a single Thought object
+>>>>>>> 3a052c4386f1f78b8f246e75c16f5b2c9e05a647
 */
 export const updateThoughts = async (req, res) => {
     try {
@@ -70,7 +93,11 @@ export const updateThoughts = async (req, res) => {
         if (!thought) {
             res.status(404).json({ message: 'No thoughts with this id!' });
         }
+<<<<<<< HEAD
         res.json(createThoughts);
+=======
+        res.json(thoughts);
+>>>>>>> 3a052c4386f1f78b8f246e75c16f5b2c9e05a647
     }
     catch (error) {
         res.status(400).json({
