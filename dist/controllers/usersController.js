@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import { ObjectId } from 'mongodb';
-=======
-import ObjectId from 'mongodb';
->>>>>>> 3a052c4386f1f78b8f246e75c16f5b2c9e05a647
 import Thoughts from '../models/Thoughts.js';
 import Users from '../models/Users.js';
 
@@ -48,15 +44,9 @@ export const getAllUsers = async (_req, res) => {
     }
 };
 /**
-<<<<<<< HEAD
  * GET Users based on id /users/:id
  * @param string id
  * @returns a single Users object
-=======
- * GET User based on id /user/:id
- * @param string id
- * @returns a single User object
->>>>>>> 3a052c4386f1f78b8f246e75c16f5b2c9e05a647
 */
 export const getUsersById = async (req, res) => {
     const { usersId } = req.params;
@@ -81,15 +71,9 @@ export const getUsersById = async (req, res) => {
     }
 };
 /**
-<<<<<<< HEAD
  * POST Users /users
  * @param object users
  * @returns a single Users object
-=======
- * POST User /users
- * @param object user
- * @returns a single User object
->>>>>>> 3a052c4386f1f78b8f246e75c16f5b2c9e05a647
 */
 export const createUsers = async (req, res) => {
     try {
@@ -101,11 +85,7 @@ export const createUsers = async (req, res) => {
     }
 };
 /**
-<<<<<<< HEAD
  * DELETE Users based on id /users/:id
-=======
- * DELETE Student based on id /user/:id
->>>>>>> 3a052c4386f1f78b8f246e75c16f5b2c9e05a647
  * @param string id
  * @returns string
 */
@@ -115,11 +95,7 @@ export const deleteUsers = async (req, res) => {
         if (!users) {
             return res.status(404).json({ message: 'No such users exists' });
         }
-<<<<<<< HEAD
         const thoughts = await Thoughts.findOneAndUpdate({ users: req.params.usersId }, { $pull: { users: req.params.usersId } }, { new: true });
-=======
-        const thoughts = await Thoughts.findOneAndUpdate({ user: req.params.usersId }, { $pull: { users: req.params.usersId } }, { new: true });
->>>>>>> 3a052c4386f1f78b8f246e75c16f5b2c9e05a647
         if (!thoughts) {
             return res.status(404).json({
                 message: 'Users deleted, but no thoughts found',
@@ -133,54 +109,32 @@ export const deleteUsers = async (req, res) => {
     }
 };
 /**
-<<<<<<< HEAD
  * POST Assignment based on /users/:usersId/assignments
  * @param string id
  * @param object assignment
  * @returns object users
-=======
- * POST Assignment based on /user/:userId/assignments
- * @param string id
- * @param object assignment
- * @returns object user
->>>>>>> 3a052c4386f1f78b8f246e75c16f5b2c9e05a647
 */
 export const addAssignment = async (req, res) => {
     console.log('You are adding an assignment');
     console.log(req.body);
     try {
-<<<<<<< HEAD
         const users = await Users.findOneAndUpdate({ _id: req.params.usersId }, { $addToSet: { assignments: req.body } }, { runValidators: true, new: true });
-=======
-        const user = await User.findOneAndUpdate({ _id: req.params.userId }, { $addToSet: { assignments: req.body } }, { runValidators: true, new: true });
->>>>>>> 3a052c4386f1f78b8f246e75c16f5b2c9e05a647
         if (!users) {
             return res
                 .status(404)
                 .json({ message: 'No users found with that ID :(' });
         }
-<<<<<<< HEAD
         return res.json(Users);
-=======
-        return res.json(User);
->>>>>>> 3a052c4386f1f78b8f246e75c16f5b2c9e05a647
     }
     catch (err) {
         return res.status(500).json(err);
     }
 };
 /**
-<<<<<<< HEAD
  * DELETE Assignment based on /users/:usersId/assignments
  * @param string assignmentId
  * @param string usersId
  * @returns object users
-=======
- * DELETE Assignment based on /user/:userId/assignments
- * @param string assignmentId
- * @param string userId
- * @returns object user
->>>>>>> 3a052c4386f1f78b8f246e75c16f5b2c9e05a647
 */
 export const removeAssignment = async (req, res) => {
     try {
@@ -190,11 +144,7 @@ export const removeAssignment = async (req, res) => {
                 .status(404)
                 .json({ message: 'No users found with that ID :(' });
         }
-<<<<<<< HEAD
         return res.json(users);
-=======
-        return res.json(user);
->>>>>>> 3a052c4386f1f78b8f246e75c16f5b2c9e05a647
     }
     catch (err) {
         return res.status(500).json(err);
