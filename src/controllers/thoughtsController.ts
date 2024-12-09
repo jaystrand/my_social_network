@@ -3,13 +3,8 @@ import Thoughts from '../models/Thoughts.js';
 //import Users from '../models/Users.ts';
 
 /**
-<<<<<<< HEAD
  * GET All Thoughts /thoughts
  * @returns an array of Thoughts
-=======
- * GET All Courses /courses
- * @returns an array of Courses
->>>>>>> 3a052c4386f1f78b8f246e75c16f5b2c9e05a647
 */
 export const getAllThoughts = async(_req: Request, res: Response) => {
     try {
@@ -23,15 +18,9 @@ export const getAllThoughts = async(_req: Request, res: Response) => {
 }
 
 /**
-<<<<<<< HEAD
  * GET Thoughts based on id /thoughts/:id
  * @param string id
  * @returns a single Thoughts object
-=======
- * GET Course based on id /course/:id
- * @param string id
- * @returns a single Course object
->>>>>>> 3a052c4386f1f78b8f246e75c16f5b2c9e05a647
 */
 export const getThoughtsById = async (req: Request, res: Response) => {
     const { thoughtsId } = req.params;
@@ -87,11 +76,7 @@ export const updateThoughts = async (req: Request, res: Response) => {
         res.status(404).json({ message: 'No thoughts with this id!' });
       }
 
-<<<<<<< HEAD
       res.json(thoughts)
-=======
-      res.json(updateThoughts)
->>>>>>> 3a052c4386f1f78b8f246e75c16f5b2c9e05a647
     } catch (error: any) {
       res.status(400).json({
         message: error.message

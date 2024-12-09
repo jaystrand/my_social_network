@@ -33,9 +33,5 @@ const usersSchema = new Schema({
 usersSchema.virtual('friendCount').get(function () {
     return this.friends.length;
 });
-<<<<<<< HEAD
 const Users = model('Users', usersSchema);
-=======
-const Users = model('User', usersSchema);
->>>>>>> 3a052c4386f1f78b8f246e75c16f5b2c9e05a647
 export default Users;

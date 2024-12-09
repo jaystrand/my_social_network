@@ -22,11 +22,7 @@ const reactionSchema = new Schema({
     _id: false
 });
 const thoughtsSchema = new mongoose.Schema({
-<<<<<<< HEAD
     thoughtsText: {
-=======
-    thoughtText: {
->>>>>>> 3a052c4386f1f78b8f246e75c16f5b2c9e05a647
         type: String,
         required: true,
         minlength: 1,
@@ -48,9 +44,5 @@ const thoughtsSchema = new mongoose.Schema({
     },
     timestamps: true
 });
-<<<<<<< HEAD
 // const Thoughts = model('thought', thoughtSchema);
-=======
-// const Thoughts = model('thoughts', thoughtSchema);
->>>>>>> 3a052c4386f1f78b8f246e75c16f5b2c9e05a647
 export default mongoose.model('Thoughts', thoughtsSchema);
