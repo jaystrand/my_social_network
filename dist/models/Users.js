@@ -33,5 +33,5 @@ const usersSchema = new Schema({
 usersSchema.virtual('friendCount').get(function () {
     return this.friends.length;
 });
-const Users = model('Users', usersSchema);
+const Users = model('User', usersSchema);
 export default Users;

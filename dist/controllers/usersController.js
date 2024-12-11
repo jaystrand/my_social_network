@@ -1,9 +1,5 @@
 import { ObjectId } from 'mongodb';
-import Thoughts from '../models/Thoughts.js';
-import Users from '../models/Users.js';
-
-
-
+import { Users, Thoughts } from '../models/index.js';
 // Aggregate function to get number of users overall
 export const headCount = async () => {
     const numberOfUsers = await Users.aggregate()
@@ -12,7 +8,7 @@ export const headCount = async () => {
 };
 // Aggregate function for getting the overall grade using $avg
 export const grade = async (usersId) => Users.aggregate([
-    // only include the given student by using $match
+    // only include the given users by using $match
     { $match: { _id: new ObjectId(usersId) } },
     {
         $unwind: '$assignments',
@@ -49,13 +45,15 @@ export const getAllUsers = async (_req, res) => {
  * @returns a single Users object
 */
 export const getUsersById = async (req, res) => {
-    const { usersId } = req.params;
+    const { UsersId } = req.params;
+    console.log(UsersId);
     try {
-        const users = await Users.findById(usersId);
+        const users = await Users.findById(UsersId);
+        console.log(users);
         if (users) {
             res.json({
-                Users,
-                grade: await grade(usersId)
+                users,
+                grade: await grade(UsersId)
             });
         }
         else {
@@ -95,7 +93,7 @@ export const deleteUsers = async (req, res) => {
         if (!users) {
             return res.status(404).json({ message: 'No such users exists' });
         }
-        const thoughts = await Thoughts.findOneAndUpdate({ users: req.params.usersId }, { $pull: { users: req.params.usersId } }, { new: true });
+        const thoughts = await Thoughts.findOneAndUpdate({ user: req.params.usersId }, { $pull: { users: req.params.usersId } }, { new: true });
         if (!thoughts) {
             return res.status(404).json({
                 message: 'Users deleted, but no thoughts found',

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { ObjectId } from 'mongodb';
-import Users from '../models/Users.js';
-import Thoughts from '../models/Thoughts.js';
+import { Users, Thoughts } from '../models/index.js';
+
 
 // Aggregate function to get number of users overall
 
@@ -54,13 +54,16 @@ export const getAllUsers = async (_req: Request, res: Response) => {
  * @returns a single Users object
 */
 export const getUsersById = async (req: Request, res: Response) => {
-    const { usersId } = req.params;
+    const { UsersId } = req.params;
+    console.log(UsersId);
     try {
-        const users = await Users.findById(usersId);
+        const users = await Users.findById(UsersId);
+        console.log(users);
+        
         if (users) {
             res.json({
-                Users,
-                grade: await grade(usersId)
+                users,
+                grade: await grade(UsersId)
             });
         } else {
             res.status(404).json({
