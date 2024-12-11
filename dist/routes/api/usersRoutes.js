@@ -9,4 +9,4 @@ router.route('/:UsersId').get(getUsersById).delete(deleteUsers);
 router.route('/:UsersId/assignments').post(addAssignment);
 // /api/users/:usersId/assignments/:assignmentId
 router.route('/:UsersId/assignments/:assignmentId').delete(removeAssignment);
-export { router as UsersRouter };
+export { router as usersRouter };

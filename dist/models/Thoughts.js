@@ -44,5 +44,5 @@ const thoughtsSchema = new mongoose.Schema({
     },
     timestamps: true
 });
-// const Thoughts = model('thought', thoughtSchema);
+// const Thoughts = model('thoughts', thoughtsSchema);
 export default mongoose.model('Thoughts', thoughtsSchema);
