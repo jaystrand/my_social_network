@@ -45,10 +45,10 @@ export const getThoughtsById = async (req, res) => {
 * @returns a single Thoughts object
 */
 export const createThoughts = async (req, res) => {
-    const { thoughts } = req.body;
+    const { thoughtsText, username } = req.body;
     try {
         const newThoughts = await Thoughts.create({
-            thoughts
+            thoughtsText, username
         });
         res.status(201).json(newThoughts);
     }
@@ -92,12 +92,47 @@ export const deleteThoughts = async (req, res) => {
         }
         else {
             res.json({ message: 'Thoughts deleted!' });
-            res.json({ message: 'Thoughts and users deleted!' });
         }
     }
     catch (error) {
         res.status(500).json({
             message: error.message
         });
+    }
+};
+export const addReactions = async (req, res) => {
+    try {
+        const thoughts = await Thoughts.findOneAndUpdate({ _id: req.params.thoughtsId }, { $addToSet: { reactions: req.body } }, // Add the entire reaction object
+        { runValidators: true, new: true });
+        if (!thoughts) {
+            return res
+                .status(404)
+                .json({ message: 'No thoughts found with that ID :(' });
+        }
+        return res.json(thoughts);
+    }
+    catch (err) {
+        return res.status(500).json(err);
+    }
+};
+/**
+ * DELETE Reactions based on /thoughts/:thoughtsId/reactions
+ * @param string reactionsId
+ * @param string thoughtsId
+ * @returns object thoughts
+*/
+export const removeReactions = async (req, res) => {
+    try {
+        const thoughts = await Thoughts.findOneAndUpdate({ _id: req.params.thoughtsId }, { $pull: { reactions: { _id: req.params.reactionsId } } }, // Remove by reaction's _id
+        { runValidators: true, new: true });
+        if (!thoughts) {
+            return res
+                .status(404)
+                .json({ message: 'No thoughts found with that ID :(' });
+        }
+        return res.json(thoughts);
+    }
+    catch (err) {
+        return res.status(500).json(err);
     }
 };
