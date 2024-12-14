@@ -61,28 +61,30 @@ export const createThoughts = async (req: Request, res: Response) => {
 
 /**
  * PUT Thoughts based on id /thoughts/:id
- * @param object id, username
- * @returns a single Thoughts object
+ * @param string id
+ * @returns a updated Thoughts object
 */
 export const updateThoughts = async (req: Request, res: Response) => {
-    try {
-      const thoughts = await Thoughts.findOneAndUpdate(
-        { _id: req.params.thoughtsId },
-        { $set: req.body },
-        { runValidators: true, new: true }
+  const { thoughtsId } = req.params;
+  const updateData = req.body;
+
+  try {
+      // Find the user by ID and update with the data from the request body
+      const updatedThoughts = await Thoughts.findByIdAndUpdate(
+          thoughtsId,
+          { $set: updateData },
+          { new: true, runValidators: true }
       );
 
-      if (!thoughts) {
-        res.status(404).json({ message: 'No thoughts with this id!' });
+      if (!updatedThoughts) {
+          return res.status(404).json({ message: 'No thoughts found with that ID' });
       }
 
-      res.json(thoughts)
-    } catch (error: any) {
-      res.status(400).json({
-        message: error.message
-      });
-    }
-  };
+      return res.json(updatedThoughts);
+  } catch (error: any) {
+      return res.status(500).json({ message: error.message });
+  }
+};
 
   /**
  * DELETE Thoughts based on id /thoughts/:id

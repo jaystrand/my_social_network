@@ -83,6 +83,26 @@ export const createUsers = async (req, res) => {
     }
 };
 /**
+ * PUT Users based on id /users/:id
+ * @param string id
+ * @returns updated Users object
+ */
+export const updateUsers = async (req, res) => {
+    const { usersId } = req.params;
+    const updateData = req.body;
+    try {
+        // Find the user by ID and update with the data from the request body
+        const updatedUser = await Users.findByIdAndUpdate(usersId, { $set: updateData }, { new: true, runValidators: true });
+        if (!updatedUser) {
+            return res.status(404).json({ message: 'No user found with that ID' });
+        }
+        return res.json(updatedUser);
+    }
+    catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+};
+/**
  * DELETE Users based on id /users/:id
  * @param string id
  * @returns string
