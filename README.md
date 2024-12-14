@@ -31,3 +31,4 @@ For any questions, please contact us at:
 
 
 #### GitHub: https://github.com/jaystrand/my_social_network
+#### Walkthrough Video: https://drive.google.com/file/d/1ZXL5_mvCLpKpA5wTGklQo7vQq5HvGMtS/view
