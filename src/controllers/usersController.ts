@@ -54,16 +54,16 @@ export const getAllUsers = async (_req: Request, res: Response) => {
  * @returns a single Users object
 */
 export const getUsersById = async (req: Request, res: Response) => {
-    const { UsersId } = req.params;
-    console.log(UsersId);
+    const { usersId } = req.params;
+    console.log(usersId);
     try {
-        const users = await Users.findById(UsersId);
+        const users = await Users.findById(usersId);
         console.log(users);
         
         if (users) {
             res.json({
                 users,
-                grade: await grade(UsersId)
+                grade: await grade(usersId)
             });
         } else {
             res.status(404).json({
