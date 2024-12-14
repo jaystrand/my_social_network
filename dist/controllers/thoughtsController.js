@@ -60,21 +60,22 @@ export const createThoughts = async (req, res) => {
 };
 /**
  * PUT Thoughts based on id /thoughts/:id
- * @param object id, username
- * @returns a single Thoughts object
+ * @param string id
+ * @returns a updated Thoughts object
 */
 export const updateThoughts = async (req, res) => {
+    const { thoughtsId } = req.params;
+    const updateData = req.body;
     try {
-        const thoughts = await Thoughts.findOneAndUpdate({ _id: req.params.thoughtsId }, { $set: req.body }, { runValidators: true, new: true });
-        if (!thoughts) {
-            res.status(404).json({ message: 'No thoughts with this id!' });
+        // Find the user by ID and update with the data from the request body
+        const updatedThoughts = await Thoughts.findByIdAndUpdate(thoughtsId, { $set: updateData }, { new: true, runValidators: true });
+        if (!updatedThoughts) {
+            return res.status(404).json({ message: 'No thoughts found with that ID' });
         }
-        res.json(thoughts);
+        return res.json(updatedThoughts);
     }
     catch (error) {
-        res.status(400).json({
-            message: error.message
-        });
+        return res.status(500).json({ message: error.message });
     }
 };
 /**

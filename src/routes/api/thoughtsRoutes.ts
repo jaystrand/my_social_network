@@ -13,7 +13,7 @@ import {
 // /api/thoughts
 router.route('/').get(getAllThoughts).post(createThoughts);
 
-// /api/thoughts/:thoughtId
+// /api/thoughts/:thoughtsId
 router
   .route('/:thoughtsId')
   .get(getThoughtsById)
