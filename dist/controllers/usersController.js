@@ -107,16 +107,16 @@ export const deleteUsers = async (req, res) => {
     }
 };
 /**
- * POST Assignment based on /users/:usersId/assignments
+ * POST Friends based on /users/:usersId/friends
  * @param string id
- * @param object assignment
+ * @param object friends
  * @returns object users
 */
-export const addAssignment = async (req, res) => {
-    console.log('You are adding an assignment');
+export const addFriends = async (req, res) => {
+    console.log('You are adding a friend');
     console.log(req.body);
     try {
-        const users = await Users.findOneAndUpdate({ _id: req.params.usersId }, { $addToSet: { assignments: req.body } }, { runValidators: true, new: true });
+        const users = await Users.findOneAndUpdate({ _id: req.params.usersId }, { $addToSet: { friends: req.params.friendsId } }, { runValidators: true, new: true });
         if (!users) {
             return res
                 .status(404)
@@ -129,14 +129,14 @@ export const addAssignment = async (req, res) => {
     }
 };
 /**
- * DELETE Assignment based on /users/:usersId/assignments
- * @param string assignmentId
+ * DELETE Friends based on /users/:usersId/friends
+ * @param string friendsId
  * @param string usersId
  * @returns object users
 */
-export const removeAssignment = async (req, res) => {
+export const removeFriends = async (req, res) => {
     try {
-        const users = await Users.findOneAndUpdate({ _id: req.params.usersId }, { $pull: { assignments: { assignmentId: req.params.assignmentId } } }, { runValidators: true, new: true });
+        const users = await Users.findOneAndUpdate({ _id: req.params.usersId }, { $pull: { friends: { friendsId: req.params.friendsId } } }, { runValidators: true, new: true });
         if (!Users) {
             return res
                 .status(404)
